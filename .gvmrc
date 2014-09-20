@@ -1,0 +1,2 @@
+gvm use go1.3rc2
+gvm pkgset use go-read-cmd
