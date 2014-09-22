@@ -47,11 +47,21 @@ func TestCommandExec(t *testing.T) {
 
       So(err, ShouldNotEqual, nil)
     })
+
+    Convey("can be chained", func(){
+      cmd1 := Command("ls", "-a")
+      cmd2 := Command("grep", "travis")
+
+      out := cmd1.Exec(nil)
+      out = cmd2.Exec(out)
+      lines := bufio.NewScanner(out)
+
+      for lines.Scan() {
+        // Scan for any lines
+      }
+
+      line := lines.Text()
+      So(line,ShouldEqual,".travis.yml")
+    })
   })
 }
-
-// Exec creates a command and executices it
-// Exec can chain commands: ls . | grep _test
-
-// Command.Exec takes an input to provide to the command
-// Command.Exec returns the streamed output as a Reader
